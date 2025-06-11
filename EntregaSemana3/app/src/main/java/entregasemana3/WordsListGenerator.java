@@ -5,13 +5,24 @@ import entregasemana3.Categories;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * Clase que genera listas de palabras según la categoría seleccionada.
+ * También puede seleccionar palabras aleatorias como bonificación.
+ */
 public class WordsListGenerator implements IGenerator {
+        /** Semilla aleatoria usada para generación de palabras. */
     private int seed;
+        /** Máximo número de palabras de bonificación permitidas. */
     private final int maxNumberOfBonusWords = 3;
+        /** Mínimo valor para la semilla aleatoria. */
     private final int minSeed = 1000;
+        /** Máximo valor para la semilla aleatoria. */
     private final int maxSeed = 100000;
+        /** Mapa que asocia una categoría con su lista correspondiente de palabras. */
     private Map<String, Word[]> wordCategories = new HashMap<>();
+    /**
+     * Constructor que inicializa la semilla y carga las listas de palabras por categoría.
+     */
     public WordsListGenerator(){
         seed = (int)(Math.random() * (maxSeed - minSeed)) + minSeed;
         wordCategories.put(Categories.PERSONAL.toString(), personalities);
@@ -19,16 +30,34 @@ public class WordsListGenerator implements IGenerator {
         wordCategories.put(Categories.OBJECTS.toString(), objectDefects);
         wordCategories.put(Categories.PROGRAMMING.toString(), programmingWords);
     }
+    /**
+     * Selecciona un conjunto aleatorio de palabras de una categoría específica.
+     *
+     * @param category Nombre de la categoría.
+     * @param numberOfWords Número de palabras a seleccionar.
+     * @return Arreglo de palabras seleccionadas aleatoriamente.
+     */
     @Override
     public Word[] selectWordsFromCategory(String category, int numberOfWords) {
         return selectRandomWordsFromGroup(wordCategories.get(category), numberOfWords);
     }
-
+     /**
+     * Obtiene palabras de bonificación del tablero del juego.
+     *
+     * @param game Instancia del juego.
+     * @return Arreglo de palabras de bonificación seleccionadas aleatoriamente.
+     */
     @Override
     public Word[] getBonusWords(Game game) {
         return selectRandomWordsFromGroup(game.getBoard().getWords(), maxNumberOfBonusWords);
     }
-
+     /**
+     * Método auxiliar para seleccionar palabras aleatorias desde un arreglo dado.
+     *
+     * @param words Arreglo de palabras fuente.
+     * @param numberOfWords Número de palabras a seleccionar.
+     * @return Arreglo con palabras seleccionadas aleatoriamente.
+     */
     private static Word[] selectRandomWordsFromGroup(Word[] words, int numberOfWords){
         Word[] selectedWords = new Word[numberOfWords];
         int randomIndex;
@@ -38,7 +67,7 @@ public class WordsListGenerator implements IGenerator {
         }
         return  selectedWords;
     }
-
+        /** Lista de palabras relacionadas con aspectos de personalidad. */
     private final Word[] personalities = {
             new Word("Honest", "free from fraud or deception; legitimate, truthful"),
             new Word("Kind", "having or showing a friendly, generous, and considerate nature"),
@@ -71,7 +100,7 @@ public class WordsListGenerator implements IGenerator {
             new Word("Talkative", "fond of or given to talking"),
             new Word("Quiet", "making little or no noise")
     };
-
+    /** Lista de palabras relacionadas con defectos en objetos. */
     private final Word[] objectDefects = {
             new Word("Broken", "damaged and no longer in one piece or in working order"),
             new Word("Cracked", "having one or more lines on the surface where something is broken but not completely separated"),
@@ -104,7 +133,7 @@ public class WordsListGenerator implements IGenerator {
             new Word("Loose", "not tightly fixed or fastened"),
             new Word("Discolored", "having a change in color, usually undesired")
     };
-
+    /** Lista de palabras relacionadas con negocios. */
     private final Word[] businessWords = {
             new Word("Profit", "the financial gain after all expenses are deducted"),
             new Word("Revenue", "income generated from normal business operations"),
@@ -137,7 +166,7 @@ public class WordsListGenerator implements IGenerator {
             new Word("Wholesale", "selling goods in large quantities at lower prices"),
             new Word("IPO", "Initial Public Offering, when a company sells shares to the public for the first time")
     };
-
+    /** Lista de palabras relacionadas con programación. */
     private final Word[] programmingWords = {
             new Word("Algorithm", "a step-by-step procedure for solving a problem or performing a task"),
             new Word("Array", "a collection of elements identified by index or key"),
