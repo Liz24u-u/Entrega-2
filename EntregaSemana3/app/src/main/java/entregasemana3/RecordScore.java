@@ -13,7 +13,7 @@ public class RecordScore {
     }
     public void addGame(Game game) {
         scores.computeIfAbsent(game.getCategory(), k -> new LinkedList<>());
-        scores.put(game.getCategory(), game.getScore());
+        scores.get(game.getCategory()).add(game.getScore());
         gamesCompleted += 1;
     }
 
@@ -34,6 +34,6 @@ public class RecordScore {
                 globalMeanTime += s.getMeanTimeToFindWord();
             }
         }
-        return globalMeanTime/gamesCompleted;
+        return globalMeanTime/(double)gamesCompleted;
     }
 }

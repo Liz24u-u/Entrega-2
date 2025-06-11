@@ -41,4 +41,8 @@ public class Word {
     public String getKeyword(){
         return keyword;
     }
+
+    public boolean isFound() {
+        return isFound;
+    }
 }

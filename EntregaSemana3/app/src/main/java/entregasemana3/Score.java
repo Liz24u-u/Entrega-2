@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class Score {
 
     private int numberFoundWords;
-    private float meanTimeToFindWord;
+    private double meanTimeToFindWord;
 
     public Score() {
         numberFoundWords = 0;
@@ -16,7 +16,7 @@ public class Score {
         return numberFoundWords;
     }
 
-    public float getMeanTimeToFindWord() {
+    public double getMeanTimeToFindWord() {
         return meanTimeToFindWord;
     }
 
@@ -30,6 +30,7 @@ public class Score {
         for (int i=1; i<times.length; i++){
             averageTime += (double) (times[i].getTime() - times[i-1].getTime())/1000.0;
         }
-        meanTimeToFindWord /= times.length;
+        averageTime /= (double) times.length;
+        meanTimeToFindWord = averageTime;
     }
 }

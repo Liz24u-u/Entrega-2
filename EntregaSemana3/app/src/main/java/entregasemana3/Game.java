@@ -1,5 +1,8 @@
 package entregasemana3;
 
+import java.util.LinkedList;
+import java.util.Objects;
+
 public class Game {
     private final Player player;
     private final Categories category;
@@ -22,4 +25,46 @@ public class Game {
     public SoupBoard getBoard(){
         return board;
     }
+
+    public String getCategory(){
+        return category.toString();
+    }
+
+    public Score getScore(){
+        return score;
+    }
+
+    public void buildGame(){
+        board.generateSoupBoard(listGenerator.selectWordsFromCategory(category.toString(), numberOfWords));
+    }
+
+    public int[][] getFoundWordsLocation(){
+        LinkedList<Word> foundWords = board.getFoundWords();
+        int[][] coordinates = new int[foundWords.size()][5];
+        for(int i=0; i<foundWords.size(); i++){
+            coordinates[i] = board.getWordLocation(foundWords.get(i));
+        }
+        return coordinates;
+    }
+
+    public boolean matchWord(Word wordToFind){
+        for(Word word: board.getWords()){
+            if (!word.isFound() && Objects.equals(wordToFind.getKeyword(), word.getKeyword())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void startGame(){
+
+    }
+    public void endGame(){
+
+    }
+
+    public void saveScore(){
+        player.getScore().addGame(this);
+    }
+
 }
