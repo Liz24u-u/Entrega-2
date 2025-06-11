@@ -9,6 +9,38 @@ public class App {
     }
 
     public static void main(String[] args) {
+
         System.out.println(new App().getGreeting());
+        Word[] words = {
+            new Word("Shy", "being reserved or having or showing nervousness or timidity in the company of other people"),
+            new Word("Friendly", "showing kindness or goodwill"),
+            new Word("Generous", "showing a readiness to give more of something, as money or time, than is strictly necessary or expected"),
+                new Word("Optimistic", "hopeful and confident about the future"),
+                new Word("Pessimistic", "tending to see the worst aspect of things or believe that the worst will happen"),
+                new Word("Creative", "relating to or involving the use of the imagination or original ideas to create something"),
+                new Word("Ambitious", "having a strong desire for success or achievement"),
+                new Word("Polite", "having or showing behavior that is respectful and considerate of other people"),
+                new Word("Rude", "offensively impolite or ill-mannered"),
+                new Word("Stubborn", "having or showing dogged determination not to change one's attitude or position on something"),
+                new Word("Reliable", "consistently good in quality or performance; able to be trusted"),
+                new Word("Lazy", "unwilling to work or put in effort"),
+                new Word("Energetic", "showing or involving great activity or vitality"),
+                new Word("Jealous", "feeling or showing envy of someone or their achievements and advantages"),
+                new Word("Caring", "displaying kindness and concern for others"),
+                new Word("Arrogant", "having or revealing an exaggerated sense of one's own importance or abilities"),
+        };
+        SoupBoard board = new SoupBoard(words);
+        board.printBoard();
+//        board.setWordLocation(words[0]);
+        for(Word word : words){
+            board.setWordLocation(word);
+        }
+//        board.setWordLocation(words[1]);
+//
+//        board.setWordLocation(words[2]);
+//        board.setWordLocation(words[3]);
+//        board.setWordLocation(words[4]);
+//        board.setWordLocation(words[5]);
+        board.printBoard();
     }
 }
