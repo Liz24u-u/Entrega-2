@@ -7,7 +7,7 @@ import java.util.Map;
 public class SoupBoard {
     private final char[][] lettersArray;
     private final Word[] words;
-    private final int[][] wordCoordinates;
+    private final Map<String,int[]> wordCoordinates;
     private final Map<Character, LinkedList<int[]>> lettersMap= new HashMap<>();
     private final char nullChar = '\u0000';
     private int span = 4;
@@ -19,7 +19,7 @@ public class SoupBoard {
             if (maxNumberOfLetters < word.getLetters().length)  {maxNumberOfLetters = word.getLetters().length;} ;
         }
         lettersArray = new char[maxNumberOfLetters+span][maxNumberOfLetters+span];
-        wordCoordinates = new int[words.length][5];
+        wordCoordinates =new HashMap<>();
     }
 
     private char getCharByCoordinate(int row, int column) {
@@ -52,6 +52,14 @@ public class SoupBoard {
             if (possibleDirections.size() > 1) {
                 randomDirection = possibleDirections.get((int) (Math.random() * (possibleDirections.size())));
                 coordinates = coordinatesByDirection(initialPosition, word.getLetters().length, randomDirection);
+                int[] wordStartEndPosition = {
+                        coordinates[0][0],
+                        coordinates[0][1],
+                        coordinates[word.getLetters().length - 1][0],
+                        coordinates[word.getLetters().length-1][1],
+                        randomDirection
+                };
+                wordCoordinates.put(word.getKeyword(), wordStartEndPosition);
                 break;
             }
         }
@@ -82,6 +90,7 @@ public class SoupBoard {
             lettersMap.computeIfAbsent(word.getLetters()[i], k -> new LinkedList<>());
             lettersMap.get(word.getLetters()[i]).add(wordLocations[i]);
             lettersArray[wordLocations[i][0]][wordLocations[i][1]] = word.getLetters()[i];
+
         }
 
     }
@@ -139,6 +148,34 @@ public class SoupBoard {
 
     public Word[] getWords(){
         return words;
+    }
+
+    public void generateSoupBoard(Word[] words) {
+        for(Word word : words){
+            setWordLocation(word);
+        }
+    }
+
+    public LinkedList<Word> getFoundWords(){
+        LinkedList<Word> foundWords = new LinkedList<>();
+        for(Word word: words) {
+            if (word.isFound()){
+                foundWords.add(word);
+            }
+        }
+        return foundWords;
+    }
+
+    public void markWordAsFound(Word wordInSoup){
+        for(Word word: words) {
+            if (wordInSoup.getKeyword() == word.getKeyword()){
+                word.setAsFound();
+            }
+        }
+    }
+
+    public int[] getWordLocation(Word word){
+        return wordCoordinates.get(word.getKeyword());
     }
 
 
